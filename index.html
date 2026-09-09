@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Equilibrium: Dell Med Student Wellness & Resource Hub</title>
+    <!-- Google Fonts: Lora (Serif) & Inter (Sans-Serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="prototype-banner">
+        <span>Dell Med Student Initiative</span>
+        The Equilibrium • Dell Medical School Student Wellness Hub
+    </div>
+
+    <header>
+        <div class="container nav-container">
+            <a href="#home" class="brand-logo">
+                <span class="brand-title">The Equilibrium</span>
+                <span class="brand-subtitle">Dell Med Wellness Hub</span>
+            </a>
+            
+            <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="primary-nav" class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#library">Resources</a>
+                <a href="#study-section">Study Spots</a>
+                <a href="#maps">UT Maps</a>
+                <a href="#feedback-section">Feedback</a>
+                <a href="#crisis" class="crisis-nav-btn">Need help now?</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="home">
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="container hero-single">
+                <div class="hero-badge-group">
+                    <span class="hero-badge">Dell Med Student Initiative</span>
+                </div>
+                <h1>What do you need right now?</h1>
+                <p>Find somewhere to study, take a break, move, get outside, connect, or find support. The Equilibrium was founded by Natalie Rivas, current Wellness Coordinator, as part of the Dell Med Psychiatry Interest Group's commitment to psychiatry and student wellbeing.</p>
+                <div class="disclaimer-note">
+                    <strong>Note:</strong> This hub is student-maintained and is not a substitute for emergency or professional medical care.
+                </div>
+                <div class="hero-cta-group">
+                    <a href="#library" class="btn btn-primary">Browse Resource Library</a>
+                    <a href="#crisis" class="btn btn-terracotta">Need help now?</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: QUICK NEED SELECTOR -->
+        <section class="section-padding container" aria-labelledby="selector-heading">
+            <div class="section-header">
+                <h2 id="selector-heading">Quick Need Selector</h2>
+                <p>Select a category below to instantly filter resources for studying, moving, decompressing, connecting, or getting support.</p>
+            </div>
+
+            <div class="selector-grid" role="group" aria-label="Wellness needs categories">
+                <button type="button" class="selector-card" data-category="support">
+                    <span class="selector-icon" aria-hidden="true">💬</span>
+                    <span class="selector-title">Talk to someone</span>
+                </button>
+                <button type="button" class="selector-card" data-category="study">
+                    <span class="selector-icon" aria-hidden="true">📚</span>
+                    <span class="selector-title">Find somewhere to study</span>
+                </button>
+                <button type="button" class="selector-card" data-category="move">
+                    <span class="selector-icon" aria-hidden="true">⚡</span>
+                    <span class="selector-title">Move my body</span>
+                </button>
+                <button type="button" class="selector-card" data-category="outdoors">
+                    <span class="selector-icon" aria-hidden="true">🌳</span>
+                    <span class="selector-title">Get outside</span>
+                </button>
+                <button type="button" class="selector-card" data-category="break">
+                    <span class="selector-icon" aria-hidden="true">🍃</span>
+                    <span class="selector-title">Take a break</span>
+                </button>
+                <button type="button" class="selector-card" data-category="connect">
+                    <span class="selector-icon" aria-hidden="true">🤝</span>
+                    <span class="selector-title">Connect & explore</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 3: SEARCHABLE & FILTERABLE RESOURCE LIBRARY -->
+        <section class="container" id="library">
+            <div class="library-section">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <h2>Resource Library</h2>
+                    <p>Search across mental health services, fitness routines, and community guides.</p>
+                </div>
+
+                <div class="library-controls">
+                    <!-- Search Input -->
+                    <div class="search-bar-wrapper">
+                        <label for="searchInput" class="sr-only">Search resources</label>
+                        <span class="search-icon" aria-hidden="true">🔍</span>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search resources by title, keyword, or tag...">
+                    </div>
+
+                    <!-- Filter Chips & Clear Option -->
+                    <div class="filter-toolbar">
+                        <div class="filter-tags-row" role="group" aria-label="Filter tags">
+                            <span class="filter-label">Filter by Tag:</span>
+                            <button type="button" class="filter-chip active" data-tag="all">All</button>
+                            <button type="button" class="filter-chip" data-tag="5 min">5 min</button>
+                            <button type="button" class="filter-chip" data-tag="15 min">15 min</button>
+                            <button type="button" class="filter-chip" data-tag="30+ min">30+ min</button>
+                            <button type="button" class="filter-chip" data-tag="included for students">Included for students</button>
+                            <button type="button" class="filter-chip" data-tag="on campus">on campus</button>
+                            <button type="button" class="filter-chip" data-tag="off campus">off campus</button>
+                            <button type="button" class="filter-chip" data-tag="virtual">virtual</button>
+                            <button type="button" class="filter-chip" data-tag="outdoors">outdoors</button>
+                            <button type="button" class="filter-chip" data-tag="open late">open late</button>
+                        </div>
+                        <button type="button" id="clearFiltersBtn" class="clear-filters-btn">Clear filters</button>
+                    </div>
+
+                    <div class="result-count" id="resultCount" aria-live="polite">Showing all resources</div>
+                </div>
+
+                <!-- Cards Grid rendered dynamically via script.js -->
+                <div class="resource-grid" id="resourceGrid"></div>
+
+                <div id="noResultsMessage" class="no-results-message" style="display: none;">
+                    No matches yet. Try clearing a filter or searching another term.
+                </div>
+            </div>
+        </section>
+
+        <!-- STUDY SPOTS SECTION -->
+        <section class="container section-padding" id="study-section">
+            <div class="library-section">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <h2>Study Spot Directory</h2>
+                    <p>Explore student-curated campus study nooks and libraries with current access notes.</p>
+                </div>
+
+                <div class="library-controls">
+                    <div class="filter-tags-row" role="group" aria-label="Study spot filters">
+                        <span class="filter-label">Filter Spots:</span>
+                        <button type="button" class="study-filter-chip active" data-study-filter="all">All Spots</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="quiet">Quiet</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="social">Social</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="indoor">Indoor</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="outdoor">Outdoor</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="openLate">Open Late</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="outlets">Outlets</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="coffeeNearby">Coffee Nearby</button>
+                    </div>
+                </div>
+
+                <div class="study-disclaimer-notice">
+                    Hours and building access can change. Check the linked location before making a special trip.
+                </div>
+
+                <!-- Study Spots Grid rendered dynamically via script.js -->
+                <div class="resource-grid" id="studySpotsGrid"></div>
+            </div>
+        </section>
+
+        <!-- USEFUL & RANDOM UT MAPS AREA -->
+        <section class="container" id="maps">
+            <div class="maps-section">
+                <div class="section-header" style="margin-bottom: 1.5rem;">
+                    <h2>Useful & Random UT Maps</h2>
+                    <p>Lighthearted and practical student-curated map guides across campus.</p>
+                </div>
+                <div class="maps-grid">
+                    <div class="map-card">
+                        <h4>UT Wellness Resource Maps</h4>
+                        <p>Includes official student-voted campus <strong>Nap Maps</strong> (rating spots by comfort, accessibility, and noise level) and <strong>Nature Rx Maps</strong> highlighting the best outdoor green spaces for relaxation and mindfulness.</p>
+                        <a href="https://www.healthyhorns.utexas.edu/lwc/wellness-resource-maps.html" target="_blank" rel="noopener noreferrer">View Wellness Maps &rarr;</a>
+                    </div>
+                    <div class="map-card">
+                        <h4>Student Restroom Map</h4>
+                        <p>A student-curated, crowdsourced map pointing you to quiet, clean, or accessible restrooms across campus buildings when you are on the move.</p>
+                        <a href="https://www.google.com/maps/d/u/0/viewer?mid=1aukCy323hAcFftXCBO_Vs45U9DITBec&usp=sharing" target="_blank" rel="noopener noreferrer">View Restroom Map &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEEDBACK SECTION -->
+        <section class="container section-padding" id="feedback-section">
+            <div class="library-section" style="background-color: var(--sage-light); max-width: 700px; margin: 0 auto;">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <h2>Help keep this useful.</h2>
+                    <p>This hub is maintained by student volunteers. Your input helps keep resources current and accurate.</p>
+                </div>
+                <div class="feedback-single-wrapper">
+                    <div class="feedback-card" style="margin: 0 auto;">
+                        <h3>Improve this site</h3>
+                        <p>Found a broken link? Have a resource we should add? Tell the student maintainers what would make the hub more useful.</p>
+                        <a href="REPLACE_WITH_WEBSITE_FEEDBACK_GOOGLE_FORM" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; text-align: center;">Send site feedback</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CRISIS / IMMEDIATE SUPPORT SECTION -->
+        <section class="container" id="crisis">
+            <div class="urgent-banner">
+                <div class="urgent-content">
+                    <h2>Need immediate support?</h2>
+                    <p>If you are experiencing a mental health crisis, acute distress, or thoughts of self-harm, confidential support is available 24/7.</p>
+                </div>
+                <div class="urgent-action-box">
+                    <div class="crisis-contact-item">
+                        <div>
+                            <span class="crisis-name">UT CMHC 24/7 Crisis Line</span>
+                            <p class="crisis-subtext">24/7 mental health crisis support for UT Austin students.</p>
+                        </div>
+                        <a href="tel:5124712255" class="crisis-number">512-471-2255</a>
+                    </div>
+                    <div class="crisis-contact-item">
+                        <div>
+                            <span class="crisis-name">988 Suicide & Crisis Lifeline</span>
+                            <p class="crisis-subtext">Free, confidential support available 24/7 via call or text.</p>
+                        </div>
+                        <a href="tel:988" class="crisis-number">Call / Text 988</a>
+                    </div>
+                    <div class="crisis-contact-item">
+                        <div>
+                            <span class="crisis-name">Crisis Text Line</span>
+                            <p class="crisis-subtext">Text-based support with a trained volunteer Crisis Counselor.</p>
+                        </div>
+                        <a href="https://www.crisistextline.org/" target="_blank" rel="noopener noreferrer" class="crisis-number">Text HOME to 741741</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="brand-title" style="color: var(--white); font-size: 1.4rem;">The Equilibrium</span>
+                    <p>Founded by Natalie Rivas, Wellness Coordinator, via Dell Med Psychiatry Interest Group.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#library">Resources</a></li>
+                        <li><a href="#study-section">Study Spots</a></li>
+                        <li><a href="#maps">UT Maps</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="#feedback-section">Improve this site</a></li>
+                        <li><a href="#crisis">Need help now?</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Maintenance</h4>
+                    <ul>
+                        <li><a href="#home">Student-Maintained</a></li>
+                        <li id="footerReviewDate">Last site review: September 2026</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; Dell Med Student Wellness Collective.</p>
+                <p>See something outdated? <a href="#feedback-section" style="color: inherit; text-decoration: underline;">Tell us</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data and Application Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
