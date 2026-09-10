@@ -995,8 +995,8 @@ const STUDY_SPOTS = [
 
 document.addEventListener("DOMContentLoaded", () => {
     let currentCategory = 'all';
-    let currentTag = null; // Blank by default so page loads empty
-    let currentStudyFilter = null; // Blank by default so study spots load empty
+    let currentTag = '';       // Empty by default on page load
+    let currentStudyFilter = ''; // Empty by default on page load
 
     const resourceGrid = document.getElementById('resourceGrid');
     const studySpotsGrid = document.getElementById('studySpotsGrid');
@@ -1038,8 +1038,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const query = searchInput.value.toLowerCase().trim();
         resourceGrid.innerHTML = '';
 
-        // If no filter tag, category, or search term has been selected/typed, remain blank
-        if (currentTag === null && currentCategory === 'all' && query === '') {
+        // If no filter chip has been clicked, category is default, and search is empty, stay blank
+        if (currentTag === '' && currentCategory === 'all' && query === '') {
             resultCount.textContent = "Select a filter or search term above to view resources";
             noResultsMessage.style.display = 'none';
             return;
@@ -1047,8 +1047,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const filtered = WELLNESS_RESOURCES.filter(res => {
             const matchesCategory = (currentCategory === 'all' || res.category === currentCategory);
-            // If tag is 'all', match everything; otherwise check tags array
-            const matchesTag = (currentTag === null || currentTag === 'all' || res.tags.includes(currentTag));
+            // If currentTag is 'all' or empty, display everything; otherwise match specific tag
+            const matchesTag = (currentTag === '' || currentTag === 'all' || res.tags.includes(currentTag));
             
             const searchString = `${res.title} ${res.description} ${res.section} ${res.resourceType} ${res.tags.join(' ')}`.toLowerCase();
             const matchesSearch = searchString.includes(query);
@@ -1102,7 +1102,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderStudySpots() {
         studySpotsGrid.innerHTML = '';
 
-        if (currentStudyFilter === null) {
+        if (currentStudyFilter === '') {
             studySpotsGrid.innerHTML = '<div class="no-results-message">Please select a study spot filter above to view locations.</div>';
             return;
         }
@@ -1202,13 +1202,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (clearFiltersBtn) {
         clearFiltersBtn.addEventListener('click', () => {
             currentCategory = 'all';
-            currentTag = null;
+            currentTag = '';
+            currentStudyFilter = '';
             searchInput.value = '';
 
             selectorCards.forEach(c => c.classList.remove('active'));
             filterChips.forEach(chip => chip.classList.remove('active'));
+            studyFilterChips.forEach(chip => chip.classList.remove('active'));
 
             renderResources();
+            renderStudySpots();
         });
     }
 
@@ -1218,6 +1221,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Initial load: leaves grids empty until user action
     renderResources();
     renderStudySpots();
 });
