@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Equilibrium: Dell Med Student Wellness & Resource Hub</title>
+    <title>For Students by Students</title>
     <!-- Google Fonts: Lora (Serif) & Inter (Sans-Serif) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260910-3">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="prototype-banner">
-        <span>Dell Med Student Initiative</span>
-        The Equilibrium • Dell Medical School Student Wellness Hub
+        <span>Dell Med Psych Interest Group Initiative</span>Maintained by Students for Students
     </div>
 
     <header>
@@ -36,6 +35,7 @@
                 <a href="#study-section">Study Spots</a>
                 <a href="#maps">UT Maps</a>
                 <a href="#feedback-section">Feedback</a>
+                <a href="#crisis" class="crisis-nav-btn">Need help now?</a>
             </nav>
         </div>
     </header>
@@ -52,10 +52,179 @@
                 <div class="disclaimer-note">
                     <strong>Note:</strong> This hub is student-maintained and is not a substitute for emergency or professional medical care.
                 </div>
+                <div class="hero-cta-group">
+                    <a href="#library" class="btn btn-primary">Browse Resource Library</a>
+                    <a href="#crisis" class="btn btn-terracotta">Need help now?</a>
+                </div>
             </div>
         </section>
 
-<!-- CRISIS / IMMEDIATE SUPPORT SECTION -->
+        <!-- SECTION 2: QUICK NEED SELECTOR -->
+        <section class="section-padding container" aria-labelledby="selector-heading">
+            <div class="section-header">
+                <h2 id="selector-heading">Quick Need Selector</h2>
+                <p>Select a category below to instantly filter resources for studying, moving, decompressing, connecting, or getting support.</p>
+            </div>
+
+            <div class="selector-grid" role="group" aria-label="Wellness needs categories">
+                <button type="button" class="selector-card" data-category="support">
+                    <span class="selector-icon" aria-hidden="true">💬</span>
+                    <span class="selector-title">Talk to someone</span>
+                </button>
+                <button type="button" class="selector-card" data-category="study">
+                    <span class="selector-icon" aria-hidden="true">📚</span>
+                    <span class="selector-title">Find somewhere to study</span>
+                </button>
+                <button type="button" class="selector-card" data-category="move">
+                    <span class="selector-icon" aria-hidden="true">⚡</span>
+                    <span class="selector-title">Move my body</span>
+                </button>
+                <button type="button" class="selector-card" data-category="outdoors">
+                    <span class="selector-icon" aria-hidden="true">🌳</span>
+                    <span class="selector-title">Get outside</span>
+                </button>
+                <button type="button" class="selector-card" data-category="break">
+                    <span class="selector-icon" aria-hidden="true">🍃</span>
+                    <span class="selector-title">Take a break</span>
+                </button>
+                <button type="button" class="selector-card" data-category="connect">
+                    <span class="selector-icon" aria-hidden="true">🤝</span>
+                    <span class="selector-title">Connect & explore</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 3: SEARCHABLE & FILTERABLE RESOURCE LIBRARY -->
+        <section class="container" id="library">
+            <div class="library-section">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <h2>Resource Library</h2>
+                    <p>Search across mental health services, fitness routines, and community guides.</p>
+                </div>
+
+                <div class="library-controls">
+                    <!-- Search Input -->
+                    <div class="search-bar-wrapper">
+                        <label for="searchInput" class="sr-only">Search resources</label>
+                        <span class="search-icon" aria-hidden="true">🔍</span>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search resources by title, keyword, or tag...">
+                    </div>
+
+                    <!-- Filter Chips & Clear Option -->
+                    <div class="filter-toolbar">
+                        <div class="filter-tags-row" role="group" aria-label="Filter tags">
+                            <span class="filter-label">Filter by Activity:</span>
+                            <button type="button" class="filter-chip active" data-tag="all">All</button>
+                            <button type="button" class="filter-chip" data-tag="sports">Sports & movement</button>
+                            <button type="button" class="filter-chip" data-tag="pets">Pets & animals</button>
+                            <button type="button" class="filter-chip" data-tag="art">Art & creativity</button>
+                            <button type="button" class="filter-chip" data-tag="5 min">5 min</button>
+                            <button type="button" class="filter-chip" data-tag="15 min">15 min</button>
+                            <button type="button" class="filter-chip" data-tag="30+ min">30+ min</button>
+                            <button type="button" class="filter-chip" data-tag="included for students">Included for students</button>
+                            <button type="button" class="filter-chip" data-tag="on campus">on campus</button>
+                            <button type="button" class="filter-chip" data-tag="off campus">off campus</button>
+                            <button type="button" class="filter-chip" data-tag="virtual">virtual</button>
+                            <button type="button" class="filter-chip" data-tag="outdoors">outdoors</button>
+                            <button type="button" class="filter-chip" data-tag="open late">open late</button>
+                        </div>
+                        <button type="button" id="clearFiltersBtn" class="clear-filters-btn">Clear filters</button>
+                    </div>
+
+                    <div class="result-count" id="resultCount" aria-live="polite">Showing all resources</div>
+                </div>
+
+                <!-- Cards Grid rendered dynamically via script.js -->
+                <div class="resource-grid" id="resourceGrid"></div>
+
+                <div id="noResultsMessage" class="no-results-message" style="display: none;">
+                    No matches yet. Try clearing a filter or searching another term.
+                </div>
+
+                <!-- Outdated Prompt -->
+                <div class="outdated-prompt">
+                    See something outdated? <a href="https://forms.gle/pxBk7z8dh8vFdkC1A" target="_blank" rel="noopener noreferrer" class="dynamic-feedback-link">Tell us →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- STUDY SPOTS SECTION -->
+        <section class="container section-padding" id="study-section">
+            <div class="library-section">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <h2>Study Spot Directory</h2>
+                    <p>Explore student-curated campus study nooks and libraries with current access notes.</p>
+                </div>
+
+                <div class="library-controls">
+                    <div class="filter-tags-row" role="group" aria-label="Study spot filters">
+                        <span class="filter-label">Filter Spots:</span>
+                        <button type="button" class="study-filter-chip active" data-study-filter="all">All Spots</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="quiet">Quiet</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="social">Social</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="indoor">Indoor</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="outdoor">Outdoor</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="openLate">Open Late</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="outlets">Outlets</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="coffeeNearby">Coffee Nearby</button>
+                    </div>
+                </div>
+
+                <div class="study-disclaimer-notice">
+                    Hours and building access can change. Check the linked location before making a special trip.
+                </div>
+
+                <!-- Study Spots Grid rendered dynamically via script.js -->
+                <div class="resource-grid" id="studySpotsGrid"></div>
+
+                <!-- Outdated Prompt -->
+                <div class="outdated-prompt">
+                    See something outdated? <a href="https://forms.gle/pxBk7z8dh8vFdkC1A" target="_blank" rel="noopener noreferrer" class="dynamic-feedback-link">Tell us →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- USEFUL & RANDOM UT MAPS AREA -->
+        <section class="container" id="maps">
+            <div class="maps-section">
+                <div class="section-header" style="margin-bottom: 1.5rem;">
+                    <h2>Useful & Random UT Maps</h2>
+                    <p>Lighthearted and practical student-curated map guides across campus.</p>
+                </div>
+                <div class="maps-grid">
+                    <div class="map-card">
+                        <h4>UT Wellness Resource Maps</h4>
+                        <p>Includes official student-voted campus <strong>Nap Maps</strong> (rating spots by comfort, accessibility, and noise level) and <strong>Nature Rx Maps</strong> highlighting the best outdoor green spaces for relaxation and mindfulness.</p>
+                        <a href="https://www.healthyhorns.utexas.edu/lwc/wellness-resource-maps.html" target="_blank" rel="noopener noreferrer">View Wellness Maps &rarr;</a>
+                    </div>
+                    <div class="map-card">
+                        <h4>Student Restroom Map</h4>
+                        <p>A student-curated, crowdsourced map pointing you to quiet, clean, or accessible restrooms across campus buildings when you are on the move.</p>
+                        <a href="https://www.google.com/maps/d/u/0/viewer?mid=1aukCy323hAcFftXCBO_Vs45U9DITBec&usp=sharing" target="_blank" rel="noopener noreferrer">View Restroom Map &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEEDBACK SECTION -->
+        <section class="container section-padding" id="feedback-section">
+            <div class="feedback-container-box">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <h2>Help keep this useful.</h2>
+                    <p>This hub is maintained by students, so your feedback helps keep it accurate and useful.</p>
+                </div>
+                <div class="feedback-single-wrapper">
+                    <div class="feedback-card">
+                        <h3>Improve this site</h3>
+                        <p>Found a broken link? Know a resource we should add? Have an idea that would make the hub easier to use? Send anonymous feedback to the student maintainers.</p>
+                        <a href="https://forms.gle/pxBk7z8dh8vFdkC1A" target="_blank" rel="noopener noreferrer" class="btn btn-primary dynamic-feedback-link" style="width: 100%; text-align: center;">Send anonymous feedback</a>
+                        <p class="privacy-note">No name or email required. Please don’t include identifying information in your response.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CRISIS / IMMEDIATE SUPPORT SECTION -->
         <section class="container" id="crisis">
             <div class="urgent-banner">
                 <div class="urgent-content">
@@ -87,170 +256,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- SECTION 2: NEED SELECTOR -->
-        <section class="section-padding container" aria-labelledby="selector-heading">
-            <div class="section-header">
-                <h2 id="selector-heading">Choose what would help</h2>
-                <p>Start with what you need. We’ll only show the ideas that match.</p>
-            </div>
-
-            <div class="selector-grid" role="group" aria-label="Wellness needs categories">
-                <button type="button" class="selector-card" data-category="support">
-                    <span class="selector-icon" aria-hidden="true">💬</span>
-                    <span class="selector-title">Talk to someone</span>
-                </button>
-                <button type="button" class="selector-card" data-category="study">
-                    <span class="selector-icon" aria-hidden="true">📚</span>
-                    <span class="selector-title">Find somewhere to study</span>
-                </button>
-                <button type="button" class="selector-card" data-category="move">
-                    <span class="selector-icon" aria-hidden="true">⚡</span>
-                    <span class="selector-title">Move my body</span>
-                </button>
-                <button type="button" class="selector-card" data-category="outdoors">
-                    <span class="selector-icon" aria-hidden="true">🌳</span>
-                    <span class="selector-title">Get outside</span>
-                </button>
-                <button type="button" class="selector-card" data-category="break">
-                    <span class="selector-icon" aria-hidden="true">🍃</span>
-                    <span class="selector-title">Take a break</span>
-                </button>
-                <button type="button" class="selector-card" data-category="connect">
-                    <span class="selector-icon" aria-hidden="true">🤝</span>
-                    <span class="selector-title">Connect & explore</span>
-                </button>
-                <button type="button" class="selector-card selector-card-all" data-category="all">
-                    <span class="selector-icon" aria-hidden="true">＋</span>
-                    <span class="selector-title">All ideas</span>
-                </button>
-            </div>
-        </section>
-
-        <!-- SECTION 3: SEARCHABLE & FILTERABLE RESOURCE LIBRARY -->
-        <section class="container" id="library">
-            <div class="library-section">
-                <div class="section-header" style="margin-bottom: 2rem;">
-                    <h2>Resource Library</h2>
-                    <p>Choose a need above, use a more specific filter, or search directly.</p>
-                </div>
-
-                <div class="library-controls">
-                    <div class="search-bar-wrapper">
-                        <label for="searchInput" class="sr-only">Search resources</label>
-                        <span class="search-icon" aria-hidden="true">🔍</span>
-                        <input type="text" id="searchInput" class="search-input" placeholder="Search for yoga, cats, volleyball, crisis support, art...">
-                    </div>
-
-                    <div class="filter-toolbar contextual-filter-toolbar" id="contextualFilterToolbar" hidden>
-                        <div>
-                            <div class="contextual-filter-heading" id="contextualFilterHeading">Narrow it down</div>
-                            <div class="filter-tags-row" id="dynamicFilterChips" role="group" aria-label="More specific resource filters"></div>
-                        </div>
-                        <button type="button" id="clearFiltersBtn" class="clear-filters-btn">Start over</button>
-                    </div>
-
-                    <div class="result-count" id="resultCount" aria-live="polite"></div>
-                </div>
-
-                <div id="resourcePrompt" class="resource-prompt">
-                    <h3>Pick a direction first.</h3>
-                    <p>Choose one of the options above, select <strong>All ideas</strong>, or type something into search. Resource cards stay tucked away until you ask for them.</p>
-                </div>
-
-                <div class="resource-grid" id="resourceGrid" hidden></div>
-
-                <div id="noResultsMessage" class="no-results-message" hidden>
-                    No matches yet. Try another filter, clear your search, or choose “All ideas.”
-                </div>
-            </div>
-        </section>
-
-        <!-- STUDY SPOTS SECTION -->
-        <section class="container section-padding" id="study-section">
-            <div class="library-section">
-                <div class="section-header" style="margin-bottom: 2rem;">
-                    <h2>Study Spot Directory</h2>
-                    <p>Explore student-curated campus study nooks and libraries with current access notes.</p>
-                </div>
-
-                <div class="library-controls">
-                    <div class="filter-tags-row" role="group" aria-label="Study spot filters">
-                        <span class="filter-label">Filter Spots:</span>
-                        <button type="button" class="study-filter-chip active" data-study-filter="all">All Spots</button>
-                        <button type="button" class="study-filter-chip" data-study-filter="quiet">Quiet</button>
-                        <button type="button" class="study-filter-chip" data-study-filter="social">Social</button>
-                        <button type="button" class="study-filter-chip" data-study-filter="indoor">Indoor</button>
-                        <button type="button" class="study-filter-chip" data-study-filter="outdoor">Outdoor</button>
-                        <button type="button" class="study-filter-chip" data-study-filter="openLate">Open Late</button>
-                        <button type="button" class="study-filter-chip" data-study-filter="outlets">Outlets</button>
-                        <button type="button" class="study-filter-chip" data-study-filter="coffeeShop">Coffee Shops</button>
-                        <button type="button" class="study-filter-chip" data-study-filter="patio">Outdoor Seating</button>
-                        <button type="button" class="study-filter-chip" data-study-filter="coffeeNearby">Coffee Nearby</button>
-                    </div>
-                </div>
-
-                <div class="study-disclaimer-notice">
-                    Hours and building access can change. Check the linked location before making a special trip.
-                </div>
-
-                <div class="campus-map-helper">
-                    <div>
-                        <strong>Need to find the building?</strong>
-                        <span>Use UT Austin’s interactive campus map to search campus buildings, addresses, libraries, museums, dining, parking, and more.</span>
-                    </div>
-                    <a href="https://experience.arcgis.com/experience/81d900a3c906482e9731a7a71eaaa178" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Open UT Campus Map</a>
-                </div>
-
-                <!-- Study Spots Grid rendered dynamically via script.js -->
-                <div class="resource-grid" id="studySpotsGrid"></div>
-            </div>
-        </section>
-
-        <!-- USEFUL & RANDOM UT MAPS AREA -->
-        <section class="container" id="maps">
-            <div class="maps-section">
-                <div class="section-header" style="margin-bottom: 1.5rem;">
-                    <h2>Useful & Random UT Maps</h2>
-                    <p>Lighthearted and practical student-curated map guides across campus.</p>
-                </div>
-                <div class="maps-grid">
-                    <div class="map-card">
-                        <h4>UT Interactive Campus Map</h4>
-                        <p>Search for buildings and campus destinations, with building information and location tools. Especially useful for finding the study spots listed above.</p>
-                        <a href="https://experience.arcgis.com/experience/81d900a3c906482e9731a7a71eaaa178" target="_blank" rel="noopener noreferrer">Find a UT Building &rarr;</a>
-                    </div>
-                    <div class="map-card">
-                        <h4>UT Wellness Resource Maps</h4>
-                        <p>Includes official student-voted campus <strong>Nap Maps</strong> (rating spots by comfort, accessibility, and noise level) and <strong>Nature Rx Maps</strong> highlighting the best outdoor green spaces for relaxation and mindfulness.</p>
-                        <a href="https://www.healthyhorns.utexas.edu/lwc/wellness-resource-maps.html" target="_blank" rel="noopener noreferrer">View Wellness Maps &rarr;</a>
-                    </div>
-                    <div class="map-card">
-                        <h4>Student Restroom Map</h4>
-                        <p>A student-curated, crowdsourced map pointing you to quiet, clean, or accessible restrooms across campus buildings when you are on the move.</p>
-                        <a href="https://www.google.com/maps/d/u/0/viewer?mid=1aukCy323hAcFftXCBO_Vs45U9DITBec&usp=sharing" target="_blank" rel="noopener noreferrer">View Restroom Map &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FEEDBACK SECTION -->
-        <section class="container section-padding" id="feedback-section">
-            <div class="library-section" style="background-color: var(--sage-light); max-width: 700px; margin: 0 auto;">
-                <div class="section-header" style="margin-bottom: 2rem;">
-                    <h2>Help keep this useful.</h2>
-                    <p>This hub is maintained by student volunteers. Your input helps keep resources current and accurate.</p>
-                </div>
-                <div class="feedback-single-wrapper">
-                    <div class="feedback-card" style="margin: 0 auto;">
-                        <h3>Improve this site</h3>
-                        <p>Found a broken link? Have a resource we should add? Tell the student maintainers what would make the hub more useful.</p>
-                        <a href="https://forms.gle/pxBk7z8dh8vFdkC1A" data-feedback-link target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; text-align: center;">Send anonymous feedback</a>
-                        <p class="feedback-privacy-note">No name or email required. Please don’t include identifying information in your response.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer>
@@ -258,7 +263,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <span class="brand-title" style="color: var(--white); font-size: 1.4rem;">The Equilibrium</span>
-                    <p>Founded by Natalie Rivas, Wellness Coordinator, via Dell Med Psychiatry Interest Group.</p>
+                    <p>Created and designed by Natalie Rivas, Wellness Coordinator, via Dell Med Psychiatry Interest Group in collaboration with <a href="https://machinemindsautomation.com/#" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">Machine Minds Automation</a>.</p>
                 </div>
                 <div class="footer-links">
                     <h4>Quick Links</h4>
@@ -272,7 +277,7 @@
                 <div class="footer-links">
                     <h4>Community</h4>
                     <ul>
-                        <li><a href="#feedback-section">Improve this site</a></li>
+                        <li><a href="https://forms.gle/pxBk7z8dh8vFdkC1A" target="_blank" rel="noopener noreferrer" class="dynamic-feedback-link">Improve this site</a></li>
                         <li><a href="#crisis">Need help now?</a></li>
                     </ul>
                 </div>
@@ -286,12 +291,12 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; Dell Med Student Wellness Collective.</p>
-                <p>See something outdated? <a href="#feedback-section" style="color: inherit; text-decoration: underline;">Tell us</a>.</p>
+                <p>See something outdated? <a href="https://forms.gle/pxBk7z8dh8vFdkC1A" target="_blank" rel="noopener noreferrer" class="dynamic-feedback-link" style="color: inherit; text-decoration: underline;">Tell us</a>.</p>
             </div>
         </div>
     </footer>
 
     <!-- JavaScript Data and Application Logic -->
-    <script src="script.js?v=20260910-3"></script>
+    <script src="script.js"></script>
 </body>
 </html>
