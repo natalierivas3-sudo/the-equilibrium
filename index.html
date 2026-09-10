@@ -36,7 +36,6 @@
                 <a href="#study-section">Study Spots</a>
                 <a href="#maps">UT Maps</a>
                 <a href="#feedback-section">Feedback</a>
-                <a href="#crisis" class="crisis-nav-btn">Need help now?</a>
             </nav>
         </div>
     </header>
@@ -59,7 +58,7 @@
             </div>
         </section>
 
-        <!-- CRISIS / IMMEDIATE SUPPORT SECTION (MOVED TO TOP) -->
+        <!-- CRISIS / IMMEDIATE SUPPORT SECTION -->
         <section class="container" id="crisis" style="margin-top: 3rem;">
             <div class="urgent-banner">
                 <div class="urgent-content">
@@ -147,7 +146,7 @@
                     <div class="filter-toolbar">
                         <div class="filter-tags-row" role="group" aria-label="Filter tags">
                             <span class="filter-label">Filter by Activity:</span>
-                            <button type="button" class="filter-chip" data-tag="included for students">Included for students</button>
+                            <button type="button" class="filter-chip" data-tag="all">All</button>
                             <button type="button" class="filter-chip" data-tag="sports">Sports & movement</button>
                             <button type="button" class="filter-chip" data-tag="pets">Pets & animals</button>
                             <button type="button" class="filter-chip" data-tag="art">Art & creativity</button>
@@ -162,14 +161,14 @@
                         <button type="button" id="clearFiltersBtn" class="clear-filters-btn">Clear filters</button>
                     </div>
 
-                    <div class="result-count" id="resultCount" aria-live="polite">Showing all resources</div>
+                    <div class="result-count" id="resultCount" aria-live="polite">Select a filter or search term to view resources</div>
                 </div>
 
                 <!-- Cards Grid rendered dynamically via script.js -->
                 <div class="resource-grid" id="resourceGrid"></div>
 
                 <div id="noResultsMessage" class="no-results-message" style="display: none;">
-                    No matches yet. Try clearing a filter or searching another term.
+                    No matches found. Try clearing a filter or searching another term.
                 </div>
 
                 <!-- Outdated Prompt -->
@@ -190,7 +189,7 @@
                 <div class="library-controls">
                     <div class="filter-tags-row" role="group" aria-label="Study spot filters">
                         <span class="filter-label">Filter Spots:</span>
-                        <button type="button" class="study-filter-chip" data-study-filter="openLate">Open Late</button>
+                        <button type="button" class="study-filter-chip" data-study-filter="all">All Spots</button>
                         <button type="button" class="study-filter-chip" data-study-filter="quiet">Quiet</button>
                         <button type="button" class="study-filter-chip" data-study-filter="social">Social</button>
                         <button type="button" class="study-filter-chip" data-study-filter="indoor">Indoor</button>

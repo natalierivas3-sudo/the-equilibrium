@@ -1,10 +1,3 @@
-/**
- * ==========================================
- * FUTURE STUDENT MAINTAINERS
- * Change important site-wide links/settings here.
- * ==========================================
- */
-
 const SITE_CONFIG = {
     websiteFeedbackUrl: "https://forms.gle/pxBk7z8dh8vFdkC1A",
     lastSiteReview: "September 2026"
@@ -999,12 +992,11 @@ const STUDY_SPOTS = [
         lastVerified: "2026-09-09"
     }
 ];
+
 document.addEventListener("DOMContentLoaded", () => {
     let currentCategory = 'all';
-    // 1. Change this to an empty string so nothing shows on initial load
-    let currentTag = '';
-    // 2. Change this to an empty string so study spots are also blank on load
-    let currentStudyFilter = '';
+    let currentTag = null; // Blank by default so page loads empty
+    let currentStudyFilter = null; // Blank by default so study spots load empty
 
     const resourceGrid = document.getElementById('resourceGrid');
     const studySpotsGrid = document.getElementById('studySpotsGrid');
@@ -1042,21 +1034,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Render Resource Cards (Only populates when a filter/search is active)
     function renderResources() {
         const query = searchInput.value.toLowerCase().trim();
         resourceGrid.innerHTML = '';
 
-        // If no filter is selected and no search term has been typed, show a helper prompt and stop
-        if (currentTag === '' && currentCategory === 'all' && query === '') {
-            resultCount.textContent = "Please select a filter or search term above to view resources.";
+        // If no filter tag, category, or search term has been selected/typed, remain blank
+        if (currentTag === null && currentCategory === 'all' && query === '') {
+            resultCount.textContent = "Select a filter or search term above to view resources";
             noResultsMessage.style.display = 'none';
             return;
         }
 
         const filtered = WELLNESS_RESOURCES.filter(res => {
             const matchesCategory = (currentCategory === 'all' || res.category === currentCategory);
-            const matchesTag = (currentTag === 'all' || res.tags.includes(currentTag));
+            // If tag is 'all', match everything; otherwise check tags array
+            const matchesTag = (currentTag === null || currentTag === 'all' || res.tags.includes(currentTag));
             
             const searchString = `${res.title} ${res.description} ${res.section} ${res.resourceType} ${res.tags.join(' ')}`.toLowerCase();
             const matchesSearch = searchString.includes(query);
@@ -1107,12 +1099,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Render Study Spots Cards (Defaults to Open Late)
-function renderStudySpots() {
+    function renderStudySpots() {
         studySpotsGrid.innerHTML = '';
 
-        // If no study spot filter is selected yet, show a clean prompt and stop
-        if (!currentStudyFilter || currentStudyFilter === '') {
+        if (currentStudyFilter === null) {
             studySpotsGrid.innerHTML = '<div class="no-results-message">Please select a study spot filter above to view locations.</div>';
             return;
         }
@@ -1168,7 +1158,6 @@ function renderStudySpots() {
         });
     }
 
-    // Selector Card Clicks
     selectorCards.forEach(card => {
         card.addEventListener('click', () => {
             selectorCards.forEach(c => c.classList.remove('active'));
@@ -1192,7 +1181,6 @@ function renderStudySpots() {
         });
     });
 
-    // Tag Filter Clicks
     filterChips.forEach(chip => {
         chip.addEventListener('click', () => {
             filterChips.forEach(c => c.classList.remove('active'));
@@ -1202,7 +1190,6 @@ function renderStudySpots() {
         });
     });
 
-    // Study Spot Filter Clicks
     studyFilterChips.forEach(chip => {
         chip.addEventListener('click', () => {
             studyFilterChips.forEach(c => c.classList.remove('active'));
@@ -1212,17 +1199,14 @@ function renderStudySpots() {
         });
     });
 
-    // Clear Filters Button
     if (clearFiltersBtn) {
         clearFiltersBtn.addEventListener('click', () => {
             currentCategory = 'all';
-            currentTag = 'all';
+            currentTag = null;
             searchInput.value = '';
 
             selectorCards.forEach(c => c.classList.remove('active'));
-            filterChips.forEach(chip => {
-                chip.classList.toggle('active', chip.getAttribute('data-tag') === 'all');
-            });
+            filterChips.forEach(chip => chip.classList.remove('active'));
 
             renderResources();
         });
@@ -1234,19 +1218,6 @@ function renderStudySpots() {
         });
     }
 
-    renderResources();
-    renderStudySpots();
-});
-    }
-
-    // Search Input Listener
-    if (searchInput) {
-        searchInput.addEventListener('input', () => {
-            renderResources();
-        });
-    }
-
-    // Initial Renders
     renderResources();
     renderStudySpots();
 });
