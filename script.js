@@ -999,11 +999,12 @@ const STUDY_SPOTS = [
         lastVerified: "2026-09-09"
     }
 ];
-
 document.addEventListener("DOMContentLoaded", () => {
     let currentCategory = 'all';
-    let currentTag = 'all';
-    let currentStudyFilter = 'all';
+    // 1. Change default resource tag to 'included for students'
+    let currentTag = 'included for students';
+    // 2. Change default study spot filter to 'openLate'
+    let currentStudyFilter = 'openLate';
 
     const resourceGrid = document.getElementById('resourceGrid');
     const studySpotsGrid = document.getElementById('studySpotsGrid');
@@ -1022,12 +1023,10 @@ document.addEventListener("DOMContentLoaded", () => {
         footerReviewDate.textContent = `Last site review: ${SITE_CONFIG.lastSiteReview}`;
     }
 
-    // Dynamically populate all feedback links using SITE_CONFIG
     document.querySelectorAll('.dynamic-feedback-link').forEach(link => {
         link.setAttribute('href', SITE_CONFIG.websiteFeedbackUrl);
     });
 
-    // Mobile Navigation Toggle
     if (mobileMenuToggle && primaryNav) {
         mobileMenuToggle.addEventListener('click', () => {
             const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
@@ -1043,10 +1042,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Render Resource Cards
+    // Render Resource Cards (Only populates when a filter/search is active)
     function renderResources() {
         const query = searchInput.value.toLowerCase().trim();
         resourceGrid.innerHTML = '';
+
+        // If no search query and 'All' is selected, don't populate resources by default
+        if (currentTag === 'all' && currentCategory === 'all' && query === '') {
+            resultCount.textContent = "Select a filter or search term to view resources";
+            noResultsMessage.style.display = 'none';
+            return;
+        }
 
         const filtered = WELLNESS_RESOURCES.filter(res => {
             const matchesCategory = (currentCategory === 'all' || res.category === currentCategory);
@@ -1101,7 +1107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Render Study Spots Cards
+    // Render Study Spots Cards (Defaults to Open Late)
     function renderStudySpots() {
         studySpotsGrid.innerHTML = '';
 
@@ -1158,7 +1164,6 @@ document.addEventListener("DOMContentLoaded", () => {
             card.classList.add('active');
             currentCategory = card.getAttribute('data-category');
             
-            // Reset tag filter when category changes
             currentTag = 'all';
             filterChips.forEach(chip => {
                 chip.classList.toggle('active', chip.getAttribute('data-tag') === 'all');
@@ -1166,17 +1171,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             renderResources();
 
-            // Direct smooth scrolling depending on selected need category
             if (currentCategory === 'study') {
                 const studySection = document.getElementById('study-section');
-                if (studySection) {
-                    studySection.scrollIntoView({ behavior: 'smooth' });
-                }
+                if (studySection) studySection.scrollIntoView({ behavior: 'smooth' });
             } else {
                 const libraryEl = document.getElementById('library');
-                if (libraryEl) {
-                    libraryEl.scrollIntoView({ behavior: 'smooth' });
-                }
+                if (libraryEl) libraryEl.scrollIntoView({ behavior: 'smooth' });
             }
         });
     });
@@ -1215,6 +1215,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
             renderResources();
         });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            renderResources();
+        });
+    }
+
+    renderResources();
+    renderStudySpots();
+});
     }
 
     // Search Input Listener
