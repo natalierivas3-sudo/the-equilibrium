@@ -1,2 +1,2 @@
 # the-equilibrium
-Student Wellness and Resource Hub for Students by Students.
+For Students by Students.
