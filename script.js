@@ -1001,10 +1001,10 @@ const STUDY_SPOTS = [
 ];
 document.addEventListener("DOMContentLoaded", () => {
     let currentCategory = 'all';
-    // 1. Change default resource tag to 'included for students'
-    let currentTag = 'included for students';
-    // 2. Change default study spot filter to 'openLate'
-    let currentStudyFilter = 'openLate';
+    // 1. Change this to an empty string so nothing shows on initial load
+    let currentTag = '';
+    // 2. Change this to an empty string so study spots are also blank on load
+    let currentStudyFilter = '';
 
     const resourceGrid = document.getElementById('resourceGrid');
     const studySpotsGrid = document.getElementById('studySpotsGrid');
@@ -1047,9 +1047,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const query = searchInput.value.toLowerCase().trim();
         resourceGrid.innerHTML = '';
 
-        // If no search query and 'All' is selected, don't populate resources by default
-        if (currentTag === 'all' && currentCategory === 'all' && query === '') {
-            resultCount.textContent = "Select a filter or search term to view resources";
+        // If no filter is selected and no search term has been typed, show a helper prompt and stop
+        if (currentTag === '' && currentCategory === 'all' && query === '') {
+            resultCount.textContent = "Please select a filter or search term above to view resources.";
             noResultsMessage.style.display = 'none';
             return;
         }
@@ -1108,8 +1108,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Render Study Spots Cards (Defaults to Open Late)
-    function renderStudySpots() {
+function renderStudySpots() {
         studySpotsGrid.innerHTML = '';
+
+        // If no study spot filter is selected yet, show a clean prompt and stop
+        if (!currentStudyFilter || currentStudyFilter === '') {
+            studySpotsGrid.innerHTML = '<div class="no-results-message">Please select a study spot filter above to view locations.</div>';
+            return;
+        }
 
         const filteredSpots = STUDY_SPOTS.filter(spot => {
             if (currentStudyFilter === 'all') return true;
@@ -1122,6 +1128,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (currentStudyFilter === 'coffeeNearby') return spot.coffeeNearby;
             return true;
         });
+
+        if (filteredSpots.length === 0) {
+            studySpotsGrid.innerHTML = '<div class="no-results-message">No study spots match this filter.</div>';
+            return;
+        }
 
         filteredSpots.forEach(spot => {
             const card = document.createElement('article');
