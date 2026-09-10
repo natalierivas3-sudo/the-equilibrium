@@ -31,7 +31,7 @@ const WELLNESS_RESOURCES = [
         description: "Comprehensive psychological services, psychiatric consultations, and wellbeing programs for students.",
         url: "https://healthyhorns.utexas.edu/cmhc/",
         linkText: "Visit CMHC",
-        tags: ["on campus", "virtual", "included for students"],
+        tags: ["on campus", "virtual", "included for students", "sports", "animals", "art"],
         cost: "Included for UT students",
         hours: "",
         lastVerified: "2026-09-09",
@@ -1324,6 +1324,9 @@ const STUDY_SPOTS = [
 const RESOURCE_FILTERS = {
     all: [
         { label: "Any", type: "all", value: "all" },
+        { label: "Sports & movement", type: "tag", value: "sports" },
+        { label: "Pets & animals", type: "tag", value: "animals" },
+        { label: "Art & creativity", type: "tag", value: "art" },
         { label: "5 min", type: "tag", value: "5 min" },
         { label: "15 min", type: "tag", value: "15 min" },
         { label: "30+ min", type: "tag", value: "30+ min" },
@@ -1367,10 +1370,10 @@ const RESOURCE_FILTERS = {
         { label: "30+ min", type: "tag", value: "30+ min" }
     ],
     break: [
+        { label: "Any break", type: "all", value: "all" },
         { label: "Sports & movement", type: "tag", value: "sports" },
         { label: "Pets & animals", type: "tag", value: "animals" },
         { label: "Art & creativity", type: "tag", value: "art" },
-        { label: "Any break", type: "all", value: "all" },
         { label: "Mindfulness", type: "section", value: "Mindfulness" },
         { label: "Reset your system", type: "section", value: "Reset Your System" },
         { label: "Make something", type: "section", value: "Make Something" },
@@ -1385,10 +1388,10 @@ const RESOURCE_FILTERS = {
         { label: "30+ min", type: "tag", value: "30+ min" }
     ],
     connect: [
+        { label: "Any connection", type: "all", value: "all" },
         { label: "Sports & movement", type: "tag", value: "sports" },
         { label: "Pets & animals", type: "tag", value: "animals" },
         { label: "Art & creativity", type: "tag", value: "art" },
-        { label: "Any connection", type: "all", value: "all" },
         { label: "Running & coffee", type: "section", value: "Community & Coffee Run" },
         { label: "Sports", type: "section-multi", value: ["Pickleball & Sports", "Community Sports"] },
         { label: "Animals", type: "section", value: "Spend Time With Animals" },
