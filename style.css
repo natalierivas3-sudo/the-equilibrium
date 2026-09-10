@@ -670,7 +670,6 @@ header {
     border: 2px solid var(--soft-terracotta);
     border-radius: 16px;
     padding: 3rem;
-    margin-top: 5rem;
     display: grid;
     grid-template-columns: 1.2fr 1.8fr;
     gap: 3rem;
