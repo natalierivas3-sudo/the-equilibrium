@@ -1,2 +1,2 @@
 # the-equilibrium
-Student wellness resource hub for Dell Medical School.
+Student wellness hub for Dell Medical School.
