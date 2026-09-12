@@ -1,2 +1,2 @@
 # the-equilibrium
-For Students by Students
+For Students by Students.
