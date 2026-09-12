@@ -1019,19 +1019,39 @@ body {
         min-height: 44px;
     }
 
-    .filter-tags-row {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: thin;
-        padding-bottom: 0.35rem;
+    .filter-toolbar,
+    .contextual-filter-wrap {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .filter-tags-row,
+    .study-filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        max-width: 100%;
+        gap: 0.5rem;
+        overflow: visible;
+        padding-bottom: 0;
+    }
+
+    .filter-label {
+        flex: 0 0 100%;
+        width: 100%;
+        margin: 0 0 0.25rem 0;
     }
 
     .filter-chip,
     .study-filter-chip {
-        flex: 0 0 auto;
-        white-space: nowrap;
+        flex: 0 1 auto;
+        max-width: 100%;
         min-height: 44px;
+        white-space: normal;
+        line-height: 1.25;
+        text-align: center;
+        overflow-wrap: anywhere;
     }
 
     .search-input {
@@ -1363,5 +1383,19 @@ body {
 
     .mobile-menu-toggle span {
         background-color: var(--charcoal);
+    }
+}
+
+
+@media (max-width: 480px) {
+    .filter-chip,
+    .study-filter-chip {
+        padding: 0.55rem 0.75rem;
+        font-size: 0.78rem;
+    }
+
+    .filter-tags-row,
+    .study-filter-row {
+        gap: 0.4rem;
     }
 }
