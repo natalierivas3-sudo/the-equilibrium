@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>The Equilibrium: Dell Med Student Wellness & Resource Hub</title>
     <!-- Google Fonts: Lora (Serif) & Inter (Sans-Serif) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,9 +53,6 @@
                 <div class="disclaimer-note">
                     <strong>Note:</strong> This hub is student-maintained and is not a substitute for emergency or professional medical care.
                 </div>
-                <div class="hero-cta-group">
-                    <a href="#library" class="btn btn-primary">Browse Resource Library</a>
-                </div>
             </div>
         </section>
 
@@ -94,34 +92,38 @@
         <!-- SECTION 2: QUICK NEED SELECTOR -->
         <section class="section-padding container" aria-labelledby="selector-heading">
             <div class="section-header">
-                <h2 id="selector-heading">Quick Need Selector</h2>
-                <p>Select a category below to instantly filter resources for studying, moving, decompressing, connecting, or getting support.</p>
+                <h2 id="selector-heading">Choose What Would Help</h2>
+                <p>Start with what you need right now. We’ll show the most relevant options without making you sort through everything at once.</p>
             </div>
 
             <div class="selector-grid" role="group" aria-label="Wellness needs categories">
                 <button type="button" class="selector-card" data-category="support">
                     <span class="selector-icon" aria-hidden="true">💬</span>
-                    <span class="selector-title">Talk to someone</span>
+                    <span class="selector-title">Talk to Someone</span>
                 </button>
                 <button type="button" class="selector-card" data-category="study">
                     <span class="selector-icon" aria-hidden="true">📚</span>
-                    <span class="selector-title">Find somewhere to study</span>
+                    <span class="selector-title">Find Somewhere to Study</span>
                 </button>
                 <button type="button" class="selector-card" data-category="move">
                     <span class="selector-icon" aria-hidden="true">⚡</span>
-                    <span class="selector-title">Move my body</span>
+                    <span class="selector-title">Move My Body</span>
                 </button>
                 <button type="button" class="selector-card" data-category="outdoors">
                     <span class="selector-icon" aria-hidden="true">🌳</span>
-                    <span class="selector-title">Get outside</span>
+                    <span class="selector-title">Get Outside</span>
                 </button>
                 <button type="button" class="selector-card" data-category="break">
                     <span class="selector-icon" aria-hidden="true">🍃</span>
-                    <span class="selector-title">Take a break</span>
+                    <span class="selector-title">Take a Break</span>
                 </button>
-                <button type="button" class="selector-card" data-category="connect">
+                <button type="button" class="selector-card" data-category="explore">
                     <span class="selector-icon" aria-hidden="true">🤝</span>
-                    <span class="selector-title">Connect & explore</span>
+                    <span class="selector-title">Explore Austin</span>
+                </button>
+                <button type="button" class="selector-card" data-category="doomscroll">
+                    <span class="selector-icon" aria-hidden="true">📵</span>
+                    <span class="selector-title">Instead of Doomscrolling</span>
                 </button>
             </div>
         </section>
@@ -147,16 +149,16 @@
                         <div class="filter-tags-row" role="group" aria-label="Filter tags">
                             <span class="filter-label">Filter by Activity:</span>
                             <button type="button" class="filter-chip" data-tag="all">All</button>
-                            <button type="button" class="filter-chip" data-tag="sports">Sports & movement</button>
-                            <button type="button" class="filter-chip" data-tag="pets">Pets & animals</button>
-                            <button type="button" class="filter-chip" data-tag="art">Art & creativity</button>
-                            <button type="button" class="filter-chip" data-tag="mindfulness">Mindfulness & calm nervous system</button>
-                            <button type="button" class="filter-chip" data-tag="included for students">Included for students</button>
-                            <button type="button" class="filter-chip" data-tag="on campus">on campus</button>
-                            <button type="button" class="filter-chip" data-tag="off campus">off campus</button>
-                            <button type="button" class="filter-chip" data-tag="virtual">virtual</button>
-                            <button type="button" class="filter-chip" data-tag="outdoors">outdoors</button>
-                            <button type="button" class="filter-chip" data-tag="open late">open late</button>
+                            <button type="button" class="filter-chip" data-tag="sports">Sports & Movement</button>
+                            <button type="button" class="filter-chip" data-tag="pets">Pets & Animals</button>
+                            <button type="button" class="filter-chip" data-tag="art">Art & Creativity</button>
+                            <button type="button" class="filter-chip" data-tag="mindfulness">Mindfulness & Nervous System</button>
+                            <button type="button" class="filter-chip" data-tag="included for students">Included for Students</button>
+                            <button type="button" class="filter-chip" data-tag="on campus">On Campus</button>
+                            <button type="button" class="filter-chip" data-tag="off campus">Off Campus</button>
+                            <button type="button" class="filter-chip" data-tag="virtual">Virtual</button>
+                            <button type="button" class="filter-chip" data-tag="outdoors">Outdoors</button>
+                            <button type="button" class="filter-chip" data-tag="open late">Open Late</button>
                         </div>
                         <button type="button" id="clearFiltersBtn" class="clear-filters-btn">Clear filters</button>
                     </div>
@@ -204,6 +206,12 @@
                     Hours and building access can change. Check the linked location before making a special trip.
                 </div>
 
+                <div class="map-card" style="margin-bottom: 1.5rem;">
+                    <h4>Find UT Campus Buildings</h4>
+                    <p>For student-recommended campus study nooks, use the official UT Austin interactive campus map to locate the building.</p>
+                    <a href="https://experience.arcgis.com/experience/81d900a3c906482e9731a7a71eaaa178" target="_blank" rel="noopener noreferrer">Open UT Campus Map &rarr;</a>
+                </div>
+
                 <!-- Study Spots Grid rendered dynamically via script.js -->
                 <div class="resource-grid" id="studySpotsGrid"></div>
 
@@ -222,6 +230,11 @@
                     <p>Lighthearted and practical student-curated map guides across campus.</p>
                 </div>
                 <div class="maps-grid">
+                    <div class="map-card">
+                        <h4>UT Interactive Campus Map</h4>
+                        <p>Search for campus buildings and destinations, including student-recommended study nooks.</p>
+                        <a href="https://experience.arcgis.com/experience/81d900a3c906482e9731a7a71eaaa178" target="_blank" rel="noopener noreferrer">Find a UT Building &rarr;</a>
+                    </div>
                     <div class="map-card">
                         <h4>UT Wellness Resource Maps</h4>
                         <p>Includes official student-voted campus <strong>Nap Maps</strong> (rating spots by comfort, accessibility, and noise level) and <strong>Nature Rx Maps</strong> highlighting the best outdoor green spaces for relaxation and mindfulness.</p>
