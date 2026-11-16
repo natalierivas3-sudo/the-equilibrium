@@ -57,8 +57,8 @@
                 <div class="hero-badge-group">
                     <span class="hero-badge">Dell Med Student Initiative</span>
                 </div>
-                <h1>What do you need right now?</h1>
-                <p>Find somewhere to study, take a break, move, get outside, connect, or find support. The Equilibrium was founded by Natalie Rivas, current Wellness Coordinator, as part of the Dell Med Psychiatry Interest Group's commitment to psychiatry and student wellbeing.</p>
+                <h1>What do you need today?</h1>
+                <p>Choose a starting point for your wellbeing.</p><details class="finder-details"><summary>About this project</summary><p>Find somewhere to study, take a break, move, get outside, connect, or find support. The Equilibrium was founded by Natalie Rivas, current Wellness Coordinator, as part of the Dell Med Psychiatry Interest Group's commitment to psychiatry and student wellbeing.</p></details>
                 <div class="disclaimer-note">
                     <strong>Note:</strong> This hub is student-maintained and is not a substitute for emergency or professional medical care.
                 </div>
@@ -99,10 +99,10 @@
         </section>
 
         <!-- SECTION 2: QUICK NEED SELECTOR -->
-        <section class="section-padding container" aria-labelledby="selector-heading">
+        <section class="section-padding container" id="need-selector" aria-labelledby="selector-heading">
             <div class="section-header">
-                <h2 id="selector-heading">Choose What Would Help</h2>
-                <p>Start with what you need right now. We’ll show the most relevant options without making you sort through everything at once.</p>
+                <h2 id="selector-heading">Choose one to get started</h2>
+                <p>Select an option to see resources.</p>
             </div>
 
             <div class="selector-grid" role="group" aria-label="Wellness needs categories">
@@ -112,7 +112,7 @@
                 </button>
                 <button type="button" class="selector-card" data-category="study">
                     <span class="selector-icon" aria-hidden="true">📚</span>
-                    <span class="selector-title">Find Somewhere to Study</span>
+                    <span class="selector-title">Find a study spot</span>
                 </button>
                 <button type="button" class="selector-card" data-category="move">
                     <span class="selector-icon" aria-hidden="true">⚡</span>
@@ -132,25 +132,25 @@
                 </button>
                 <button type="button" class="selector-card" data-category="doomscroll">
                     <span class="selector-icon" aria-hidden="true">📵</span>
-                    <span class="selector-title">Instead of Doomscrolling</span>
+                    <span class="selector-title">Try a screen break</span>
                 </button>
             </div>
+            <button type="button" id="browseAllBtn" class="clear-filters-btn">Browse all resources</button>
         </section>
 
         <!-- SECTION 3: SEARCHABLE & FILTERABLE RESOURCE LIBRARY -->
         <section class="container" id="library">
             <div class="library-section">
                 <div class="section-header" style="margin-bottom: 2rem;">
-                    <h2>Resource Library</h2>
-                    <p>Search across mental health services, fitness routines, and community guides.</p>
+                    <button type="button" class="finder-back clear-filters-btn">← Change my choice</button><h2 id="resultsHeading" tabindex="-1">Resources</h2>
                 </div>
 
-                <div class="library-controls">
+                <details class="finder-details" id="refineResources"><summary>Search or narrow results</summary><div class="library-controls">
                     <!-- Search Input -->
                     <div class="search-bar-wrapper">
                         <label for="searchInput" class="sr-only">Search resources</label>
                         <span class="search-icon" aria-hidden="true">🔍</span>
-                        <input type="text" id="searchInput" class="search-input" placeholder="Search resources by title, keyword, or tag...">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search all resources">
                     </div>
 
                     <!-- Filter Chips & Clear Option -->
@@ -175,6 +175,8 @@
                     <div class="result-count" id="resultCount" aria-live="polite">Select a filter or search term to view resources</div>
                 </div>
 
+                </details>
+                <p id="finderStatus" role="status"></p>
                 <!-- Cards Grid rendered dynamically via script.js -->
                 <div class="resource-grid" id="resourceGrid"></div>
 

@@ -1138,7 +1138,7 @@ const STUDY_SPOTS = [
 function initEquilibrium() {
     let currentCategory = null;
     let currentFilter = { type: "none", value: "" };
-    let currentStudyFilter = "";
+    let currentStudyFilter = "all";
 
     const resourceGrid = document.getElementById("resourceGrid");
     const studySpotsGrid = document.getElementById("studySpotsGrid");
@@ -1354,20 +1354,8 @@ function initEquilibrium() {
         return true;
     }
 
-    function setCategoryHelper(category) {
-        if (!categoryHelper) return;
-
-        if (category === "doomscroll") {
-            categoryHelper.innerHTML = `
-                <strong>Need something to do with your brain for a few minutes?</strong>
-                Pick a different kind of rabbit hole.
-                <span>No subscriptions, trials, or daily-play limits — these picks are free to keep using.</span>
-            `;
-            categoryHelper.hidden = false;
-        } else {
-            categoryHelper.hidden = true;
-            categoryHelper.innerHTML = "";
-        }
+    function setCategoryHelper() {
+        if (categoryHelper) categoryHelper.hidden = true;
     }
 
     function renderFilterRow(category = null) {
@@ -1419,14 +1407,17 @@ function initEquilibrium() {
             const button = document.createElement("button");
             button.type = "button";
             button.className = "filter-chip";
-            button.textContent = option.label;
+            button.textContent = ({"Mindfulness & Nervous System":"Mindfulness", "Events & Things to Do in Austin":"Events", "Sports & Movement":"Sports", "Pets & Animals":"Animals", "Art & Creativity":"Art"})[option.label] || option.label;
+            button.setAttribute("aria-pressed", String(currentFilter.type === option.type && currentFilter.value === option.value));
 
             button.addEventListener("click", () => {
                 filterRow.querySelectorAll(".filter-chip").forEach(chip => {
                     chip.classList.remove("active");
+                    chip.setAttribute("aria-pressed", "false");
                 });
 
                 button.classList.add("active");
+                button.setAttribute("aria-pressed", "true");
                 currentFilter = { type: option.type, value: option.value };
                 renderResources();
             });
@@ -1474,6 +1465,7 @@ function initEquilibrium() {
         });
 
         resultCount.textContent = `${filtered.length} resource${filtered.length === 1 ? "" : "s"} found`;
+        document.getElementById("finderStatus").textContent = resultCount.textContent;
 
         if (filtered.length === 0) {
             noResultsMessage.style.display = "block";
@@ -1511,24 +1503,25 @@ function initEquilibrium() {
                 ? ""
                 : ' target="_blank" rel="noopener noreferrer"';
 
+            // Preserve full source text in the expandable details, never truncate it.
+            const summary = res.description.match(/^.*?[.!?](?:\s|$)/)?.[0].trim() || res.description;
+            const eligibility = res.eligibility || (res.cost === "Included for UT Students"
+                ? "UT students; check provider requirements."
+                : res.resourceType === "UT Resource" ? "Check UT access requirements." : "Check provider requirements.");
             card.innerHTML = `
                 <div>
-                    <div class="res-header-meta">
-                        <span class="res-category">${res.section}</span>
-                        <span class="resource-type-indicator">${res.resourceType}</span>
-                    </div>
                     <h3 class="res-title">${res.title}</h3>
-                    <p class="res-desc">${res.description}</p>
-                    <div class="res-meta-info">
-                        ${hoursHtml}
-                        ${verifiedHtml}
-                    </div>
+                    <p class="res-desc">${summary}</p>
+                    <p class="resource-essentials"><strong>Cost:</strong> ${res.cost || "Not listed; check provider"}<br>
+                    <strong>Access:</strong> ${eligibility}</p>
+                    <details class="finder-details">
+                        <summary>More details<span class="sr-only"> about ${res.title}</span></summary>
+                        <p>${res.description}</p>
+                        <div class="res-meta-info">${hoursHtml}${verifiedHtml}<span>${res.source || res.resourceType}</span></div>
+                        <div class="res-tags-list">${tagsHtml}</div>
+                    </details>
                 </div>
                 <div class="res-footer">
-                    <div class="res-tags-list">
-                        ${tagsHtml}
-                        ${costHtml}
-                    </div>
                     <a href="${res.url}"${linkAttributes} class="res-link">${res.linkText} &rarr;</a>
                 </div>
             `;
@@ -1588,12 +1581,13 @@ function initEquilibrium() {
                         <span class="resource-type-indicator">${spot.campus ? "UT Campus" : "Austin"}</span>
                     </div>
                     <h3 class="res-title">${spot.name}</h3>
-                    <p class="res-desc">Hours: ${spot.hours}</p>
+                    <p class="res-desc">A ${spot.vibe} ${spot.type} study spot ${spot.campus ? "on campus" : "in Austin"}.</p>
+                    <p class="resource-essentials"><strong>Cost:</strong> Not listed; check location.<br><strong>Access:</strong> ${spot.campus ? "Check campus building access." : "Check location requirements."}</p>
+                    <details class="finder-details"><summary>More details<span class="sr-only"> about ${spot.name}</span></summary>
+                    <p>Hours: ${spot.hours}</p><p>Last checked: ${formatVerifiedDate(spot.lastVerified)}</p>
+                    <div class="res-tags-list">${tags.map(tag => `<span class="res-tag">${tag}</span>`).join("")}</div></details>
                 </div>
                 <div class="res-footer">
-                    <div class="res-tags-list">
-                        ${tags.map(tag => `<span class="res-tag">${tag}</span>`).join("")}
-                    </div>
                     <a href="${spot.url}" target="_blank" rel="noopener noreferrer" class="res-link">${linkText} &rarr;</a>
                 </div>
             `;
@@ -1602,39 +1596,74 @@ function initEquilibrium() {
         });
     }
 
-    selectorCards.forEach(card => {
-        card.addEventListener("click", () => {
-            selectorCards.forEach(item => item.classList.remove("active"));
-            card.classList.add("active");
-
-            const category = card.dataset.category;
-
-            if (category === "study") {
-                document.getElementById("study-section")?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-                return;
-            }
-
-            currentCategory = category;
-            currentFilter = { type: "none", value: "" };
-
+    const selector = document.getElementById("need-selector");
+    const library = document.getElementById("library");
+    const study = document.getElementById("study-section");
+    const heading = document.getElementById("resultsHeading");
+    const studyHeading = study.querySelector("h2");
+    studyHeading.tabIndex = -1;
+    const studyBack = document.createElement("button");
+    studyBack.type = "button";
+    studyBack.className = "finder-back clear-filters-btn";
+    studyBack.textContent = "← Change my choice";
+    studyHeading.before(studyBack);
+    let lastChoice = null;
+    function focusStep(element) {
+        element.focus({ preventScroll: true });
+        element.scrollIntoView({block: "start", behavior: "instant"});
+    }
+    function showChoice(category, label, source) {
+        lastChoice = source || lastChoice;
+        selector.hidden = true;
+        library.hidden = category === "study";
+        study.hidden = category !== "study";
+        searchInput.value = "";
+        document.getElementById("refineResources").open = false;
+        currentCategory = category;
+        currentFilter = { type: "all", value: "all" };
+        if (category === "study") {
+            currentStudyFilter = "all";
+            studyFilterChips.forEach(chip => {
+                const selected = chip.dataset.studyFilter === "all";
+                chip.classList.toggle("active", selected);
+                chip.setAttribute("aria-pressed", String(selected));
+            });
+            renderStudySpots();
+            focusStep(studyHeading);
+        } else {
+            heading.textContent = label;
             renderFilterRow(category);
             setCategoryHelper(category);
             renderResources();
-
-            document.getElementById("library")?.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
+            focusStep(heading);
+        }
+    }
+    function backToChoices() {
+        selector.hidden = false;
+        library.hidden = true;
+        study.hidden = true;
+        focusStep(lastChoice || selectorCards[0]);
+    }
+    document.querySelectorAll(".finder-back").forEach(button => button.addEventListener("click", backToChoices));
+    selectorCards.forEach(card => card.addEventListener("click", () => {
+        showChoice(card.dataset.category, card.querySelector(".selector-title").textContent, card);
+    }));
+    document.getElementById("browseAllBtn").addEventListener("click", event => showChoice("all", "All resources", event.currentTarget));
+    document.querySelectorAll('a[href="#library"], a[href="#study-section"]').forEach(link => {
+        link.addEventListener("click", event => {
+            event.preventDefault();
+            const category = link.hash === "#study-section" ? "study" : "all";
+            showChoice(category, "All resources", link);
         });
     });
+    library.hidden = true;
+    study.hidden = true;
 
     studyFilterChips.forEach(chip => {
         chip.addEventListener("click", () => {
-            studyFilterChips.forEach(item => item.classList.remove("active"));
+            studyFilterChips.forEach(item => { item.classList.remove("active"); item.setAttribute("aria-pressed", "false"); });
             chip.classList.add("active");
+            chip.setAttribute("aria-pressed", "true");
             currentStudyFilter = chip.dataset.studyFilter;
             renderStudySpots();
         });
@@ -1642,18 +1671,10 @@ function initEquilibrium() {
 
     if (clearFiltersBtn) {
         clearFiltersBtn.addEventListener("click", () => {
-            currentCategory = null;
-            currentFilter = { type: "none", value: "" };
-            currentStudyFilter = "";
+            currentFilter = { type: "all", value: "all" };
             searchInput.value = "";
-
-            selectorCards.forEach(item => item.classList.remove("active"));
-            studyFilterChips.forEach(item => item.classList.remove("active"));
-
-            setCategoryHelper(null);
-            renderFilterRow();
+            renderFilterRow(currentCategory);
             renderResources();
-            renderStudySpots();
         });
     }
 
@@ -1666,6 +1687,8 @@ function initEquilibrium() {
     renderFilterRow();
     renderResources();
     renderStudySpots();
+    if (location.hash === "#library") showChoice("all", "All resources");
+    if (location.hash === "#study-section") showChoice("study", "Study spots");
 
 }
 
