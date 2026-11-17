@@ -1270,3 +1270,565 @@
 
       const radio = document.createElement("input");
       radio.type = "radio
+/* Visual refinement for the picker and resource finder */
+(() => {
+  function polishEquilibrium() {
+    const root = document.getElementById("eq-upgrade");
+    if (!root || document.getElementById("eq-polish-styles")) return;
+
+    /* Replace the interest dropdown with accessible radio pills.
+       Keep the original select connected to the existing matching logic. */
+    const interest = document.getElementById("eq-interest");
+
+    if (interest) {
+      const field = interest.closest(".eq-field");
+      const group = document.createElement("fieldset");
+      group.className = "eq-interest-group";
+
+      const legend = document.createElement("legend");
+      legend.textContent = "What sounds good?";
+      group.appendChild(legend);
+
+      const choices = document.createElement("div");
+      choices.className = "eq-interest-pills";
+
+      const labels = {
+        any: "Surprise me",
+        unwind: "Unwind",
+        outside: "Get outside",
+        move: "Get moving",
+        connect: "Connect",
+        inspire: "Get inspired"
+      };
+
+      [...interest.options].forEach(option => {
+        const label = document.createElement("label");
+        label.className = "eq-interest-pill";
+
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "eq-interest-choice";
+        radio.value = option.value;
+        radio.checked = interest.value === option.value;
+
+        const text = document.createElement("span");
+        text.textContent = labels[option.value] || option.textContent;
+
+        radio.addEventListener("change", () => {
+          if (!radio.checked) return;
+          interest.value = radio.value;
+          interest.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+
+        label.append(radio, text);
+        choices.appendChild(label);
+      });
+
+      group.appendChild(choices);
+      field.hidden = true;
+      field.after(group);
+
+      interest.addEventListener("change", () => {
+        choices.querySelectorAll("input").forEach(radio => {
+          radio.checked = radio.value === interest.value;
+        });
+      });
+
+      /* Keep the existing Change preferences button useful. */
+      const oldChange = document.getElementById("eq-change");
+      if (oldChange) {
+        const newChange = oldChange.cloneNode(true);
+        oldChange.replaceWith(newChange);
+
+        newChange.addEventListener("click", () => {
+          document.getElementById("eq-picker-options").open = true;
+          const selected = choices.querySelector("input:checked");
+          selected?.focus();
+        });
+      }
+    }
+
+    const pickerHeading = document.getElementById("eq-picker-heading");
+    if (pickerHeading) {
+      const eyebrow = document.createElement("p");
+      eyebrow.className = "eq-eyebrow";
+      eyebrow.textContent = "A LITTLE INSPIRATION";
+      pickerHeading.before(eyebrow);
+      pickerHeading.textContent = "Find your next little reset.";
+
+      const introduction = pickerHeading.nextElementSibling;
+      if (introduction?.tagName === "P") {
+        introduction.textContent =
+          "Choose a mood—or let us surprise you with one idea.";
+      }
+    }
+
+    const pickButton = document.getElementById("eq-pick");
+    if (pickButton) pickButton.textContent = "Pick something for me →";
+
+    const narrowSummary = document.querySelector(
+      "#eq-picker-options > summary"
+    );
+    if (narrowSummary) narrowSummary.textContent = "Fine-tune my suggestion";
+
+    const finderHeading = document.getElementById("eq-resources-heading");
+    if (finderHeading) {
+      const eyebrow = document.createElement("p");
+      eyebrow.className = "eq-eyebrow";
+      eyebrow.textContent = "EXPLORE AT YOUR OWN PACE";
+      finderHeading.before(eyebrow);
+
+      const introduction = finderHeading.nextElementSibling;
+      if (introduction?.tagName === "P") {
+        introduction.textContent =
+          "A place, a pause, or a little support. Find what fits.";
+      }
+    }
+
+    const search = document.getElementById("eq-search");
+    if (search) {
+      search.placeholder = "What are you looking for?";
+    }
+
+    const accessLabel = document.querySelector('label[for="eq-audience"]');
+    if (accessLabel) accessLabel.textContent = "Who it's for";
+
+    const style = document.createElement("style");
+    style.id = "eq-polish-styles";
+    style.textContent = `
+      /* Dedicated palette keeps the interface consistent in both themes. */
+      #eq-upgrade {
+        --eq-ink: #293e35;
+        --eq-muted: #59685f;
+        --eq-surface: #fffefa;
+        --eq-soft: #f4f5ee;
+        --eq-border: #d1d9cc;
+        --eq-accent: #355b48;
+        --eq-selected: #e4eddf;
+        --eq-focus: #477458;
+        color: var(--eq-ink);
+        color-scheme: light;
+      }
+
+      #eq-upgrade .eq-eyebrow {
+        margin: 0 0 .8rem;
+        font-size: .68rem;
+        font-weight: 700;
+        letter-spacing: .17em;
+        color: var(--eq-muted);
+      }
+
+      #eq-upgrade h2 {
+        font-size: clamp(1.85rem, 3.6vw, 2.75rem);
+        line-height: 1.18;
+        letter-spacing: -.035em;
+        font-weight: 500;
+        margin-bottom: .9rem;
+        text-wrap: balance;
+      }
+
+      #eq-upgrade h2 + p {
+        max-width: 580px;
+        font-size: 1rem;
+        line-height: 1.65;
+        color: var(--eq-muted);
+      }
+
+      #eq-upgrade #eq-picker {
+        padding-top: 2rem;
+        padding-bottom: 2.5rem;
+      }
+
+      #eq-upgrade #eq-picker > .eq-panel {
+        max-width: 900px;
+        margin-inline: auto;
+        padding: clamp(1.5rem, 5vw, 3.25rem);
+        border: 1px solid var(--eq-border);
+        border-radius: 28px;
+        background:
+          radial-gradient(
+            ellipse at top right,
+            rgba(144, 172, 125, .16),
+            transparent 65%
+          ),
+          var(--eq-surface);
+        box-shadow: 0 12px 40px rgba(36, 55, 42, .055);
+      }
+
+      /* Interest pills: native radios retain arrow-key navigation. */
+      #eq-upgrade .eq-interest-group {
+        min-width: 0;
+        padding: 0;
+        margin: 1.8rem 0 1.2rem;
+        border: 0;
+      }
+
+      #eq-upgrade .eq-interest-group legend {
+        margin-bottom: .8rem;
+        padding: 0;
+        font-size: .85rem;
+        font-weight: 600;
+      }
+
+      #eq-upgrade .eq-interest-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .6rem;
+      }
+
+      #eq-upgrade .eq-interest-pill {
+        position: relative;
+        cursor: pointer;
+      }
+
+      #eq-upgrade .eq-interest-pill input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+
+      #eq-upgrade .eq-interest-pill span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: .65rem 1.05rem;
+        border: 1px solid var(--eq-border);
+        border-radius: 999px;
+        background: var(--eq-surface);
+        color: var(--eq-ink);
+        font-size: .9rem;
+        line-height: 1.25;
+        transition:
+          background .15s ease,
+          border-color .15s ease;
+      }
+
+      #eq-upgrade .eq-interest-pill:hover span {
+        background: var(--eq-soft);
+        border-color: var(--eq-accent);
+      }
+
+      #eq-upgrade .eq-interest-pill input:checked + span {
+        background: var(--eq-selected);
+        border-color: var(--eq-accent);
+        box-shadow: inset 0 0 0 1px var(--eq-accent);
+        font-weight: 600;
+      }
+
+      #eq-upgrade .eq-interest-pill input:focus-visible + span {
+        outline: 2px solid var(--eq-focus);
+        outline-offset: 4px;
+      }
+
+      /* Smaller, quieter optional preferences. */
+      #eq-upgrade #eq-picker-options {
+        margin: .5rem 0 1.4rem;
+      }
+
+      #eq-upgrade #eq-picker-options > summary {
+        display: flex;
+        align-items: center;
+        gap: .55rem;
+        width: fit-content;
+        min-height: 44px;
+        color: var(--eq-muted);
+        font-size: .85rem;
+        font-weight: 500;
+        list-style: none;
+      }
+
+      #eq-upgrade #eq-picker-options > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      #eq-upgrade #eq-picker-options > summary::before {
+        content: "+";
+        display: inline-grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        border: 1px solid var(--eq-border);
+        border-radius: 50%;
+        font-size: 1rem;
+      }
+
+      #eq-upgrade #eq-picker-options[open] > summary::before {
+        content: "−";
+      }
+
+      #eq-upgrade #eq-picker-options > .eq-controls {
+        margin-top: .6rem;
+      }
+
+      /* Consistent buttons. */
+      #eq-upgrade .eq-primary {
+        min-height: 48px;
+        padding: .8rem 1.35rem;
+        border: 1px solid var(--eq-accent);
+        border-radius: 999px;
+        background: var(--eq-accent);
+        color: var(--eq-surface);
+        font-size: .92rem;
+        font-weight: 600;
+        line-height: 1.4;
+        box-shadow: none;
+      }
+
+      #eq-upgrade .eq-primary:hover {
+        filter: brightness(.92);
+      }
+
+      #eq-upgrade .eq-secondary {
+        min-height: 44px;
+        padding: .65rem .9rem;
+        border: 1px solid var(--eq-border);
+        border-radius: 999px;
+        color: var(--eq-ink);
+        background: transparent;
+        font-size: .85rem;
+      }
+
+      #eq-upgrade .eq-secondary:hover {
+        background: var(--eq-selected);
+      }
+
+      /* Resource finder: a single softly framed filter panel. */
+      #eq-upgrade #eq-resources {
+        padding-top: 2.5rem;
+      }
+
+      #eq-upgrade #eq-filter-form {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+        gap: 1rem;
+        align-items: end;
+        margin: 1.6rem 0 1rem;
+        padding: clamp(1rem, 3vw, 1.5rem);
+        border: 1px solid var(--eq-border);
+        border-radius: 22px;
+        background: var(--eq-surface);
+        box-shadow: 0 6px 22px rgba(36, 55, 42, .035);
+      }
+
+      #eq-upgrade #eq-filter-form .eq-search-field {
+        grid-column: 1 / -1;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--eq-border);
+      }
+
+      #eq-upgrade .eq-field label {
+        font-size: .75rem;
+        font-weight: 600;
+        color: var(--eq-muted);
+        letter-spacing: .015em;
+      }
+
+      #eq-upgrade .eq-field input,
+      #eq-upgrade .eq-field select {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        height: 48px;
+        min-height: 48px;
+        margin: 0;
+        padding: .7rem .85rem;
+        border: 1px solid var(--eq-border);
+        border-radius: 12px;
+        background-color: var(--eq-soft);
+        color: var(--eq-ink);
+        font-family: inherit;
+        font-size: 16px;
+        line-height: normal;
+        box-shadow: none;
+      }
+
+      #eq-upgrade .eq-field select {
+        appearance: none;
+        -webkit-appearance: none;
+        padding-right: 2.3rem;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2359685f' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right .8rem center;
+        background-size: 16px;
+      }
+
+      #eq-upgrade #eq-search {
+        height: 54px;
+        padding-left: 2.8rem;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2359685f' stroke-width='1.7' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m16 16 4 4'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: .95rem center;
+      }
+
+      #eq-upgrade input::placeholder {
+        color: var(--eq-muted);
+        opacity: 1;
+      }
+
+      #eq-upgrade #eq-reset {
+        height: 48px;
+        border-color: transparent;
+        white-space: nowrap;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      #eq-upgrade .eq-status,
+      #eq-upgrade #eq-result-count {
+        color: var(--eq-muted);
+        font-size: .85rem;
+        line-height: 1.6;
+      }
+
+      #eq-upgrade .eq-status:empty {
+        display: none;
+      }
+
+      /* Result cards match the lighter controls. */
+      #eq-upgrade .eq-card {
+        padding: 1.5rem;
+        border: 1px solid var(--eq-border);
+        border-radius: 20px;
+        background: var(--eq-surface);
+        color: var(--eq-ink);
+        box-shadow: 0 5px 20px rgba(36, 55, 42, .035);
+      }
+
+      #eq-upgrade .eq-card h3 {
+        font-size: 1.25rem;
+        line-height: 1.35;
+        letter-spacing: -.02em;
+      }
+
+      #eq-upgrade .eq-card > p {
+        font-size: .93rem;
+        line-height: 1.65;
+      }
+
+      #eq-upgrade .eq-card .eq-meta {
+        color: var(--eq-muted);
+        font-size: .8rem;
+      }
+
+      #eq-upgrade .eq-card .eq-details summary {
+        font-size: .85rem;
+        font-weight: 500;
+      }
+
+      #eq-upgrade .eq-tags span {
+        border-color: var(--eq-border);
+        background: var(--eq-soft);
+        color: var(--eq-muted);
+      }
+
+      #eq-upgrade .eq-start {
+        background: var(--eq-surface);
+        color: var(--eq-ink);
+        border-color: var(--eq-border);
+        border-radius: 16px;
+        padding: 1.3rem;
+      }
+
+      #eq-upgrade .eq-start:hover {
+        border-color: var(--eq-accent);
+      }
+
+      #eq-upgrade :is(a, button, input, select, summary):focus-visible {
+        outline: 2px solid var(--eq-focus);
+        outline-offset: 3px;
+      }
+
+      /* Dark mode uses distinct surfaces rather than flat black fields. */
+      @media (prefers-color-scheme: dark) {
+        #eq-upgrade {
+          --eq-ink: #edf2e9;
+          --eq-muted: #bbc8b9;
+          --eq-surface: #24352d;
+          --eq-soft: #2c4035;
+          --eq-border: #526858;
+          --eq-accent: #d0e4c5;
+          --eq-selected: #3b5543;
+          --eq-focus: #c0dbb1;
+          color-scheme: dark;
+        }
+
+        #eq-upgrade #eq-picker > .eq-panel {
+          background:
+            radial-gradient(
+              ellipse at top right,
+              rgba(157, 187, 139, .10),
+              transparent 65%
+            ),
+            var(--eq-surface);
+        }
+
+        #eq-upgrade .eq-field select {
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23bbc8b9' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+        }
+
+        #eq-upgrade #eq-search {
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23bbc8b9' stroke-width='1.7' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m16 16 4 4'/%3E%3C/svg%3E");
+        }
+      }
+
+      @media (max-width: 1000px) {
+        #eq-upgrade #eq-filter-form {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        #eq-upgrade #eq-reset {
+          justify-self: start;
+        }
+      }
+
+      @media (max-width: 520px) {
+        #eq-upgrade #eq-picker > .eq-panel {
+          border-radius: 20px;
+          padding: 1.3rem;
+        }
+
+        #eq-upgrade .eq-interest-pills {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        #eq-upgrade .eq-interest-pill span {
+          height: 100%;
+          padding-inline: .6rem;
+          font-size: .85rem;
+        }
+
+        #eq-upgrade #eq-filter-form {
+          grid-template-columns: minmax(0, 1fr);
+          gap: .85rem;
+        }
+
+        #eq-upgrade #eq-pick {
+          width: 100%;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #eq-upgrade * {
+          transition: none !important;
+        }
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", polishEquilibrium, {
+      once: true
+    });
+  } else {
+    polishEquilibrium();
+  }
+})();
