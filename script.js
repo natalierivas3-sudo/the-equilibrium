@@ -5,6 +5,69 @@ const SITE_CONFIG = {
 };
 
 const WELLNESS_RESOURCES = [
+        {
+        id: "austin-tree-of-the-year",
+        title: "Explore Austin's Remarkable Trees",
+        category: "outdoors",
+        resourceType: "Community Resource",
+        section: "Nature & Local Discoveries",
+        description: "Discover award-winning Austin trees on a self-guided outing. Use the previous-winners map to choose a destination, and check location access before visiting.",
+        url: "https://goo.gl/maps/fMnFiHMkPp7YPTYK8",
+        linkText: "Explore the Tree Map",
+        tags: [
+            "outdoors",
+            "nature",
+            "off campus",
+            "local find"
+        ],
+        cost: "Map is free; location costs may vary",
+        eligibility: "Check each location's public access and visiting rules.",
+        hours: "Varies by location",
+        lastVerified: "",
+        source: "Austin Tree of the Year Awards — previous-winners map"
+    },
+    {
+        id: "posh-austin-events",
+        title: "Find Austin Events",
+        category: "explore",
+        resourceType: "Community Resource",
+        section: "Events & Social Activities",
+        description: "Discover Austin events and find an outing that interests you. Check each listing for ticket prices, fees, age restrictions, and registration requirements.",
+        url: "https://posh.vip/explore?location=custom&place=Austin%2C%20TX&lat=30.267153&lng=-97.7430608",
+        linkText: "Browse Austin Events",
+        tags: [
+            "events",
+            "community",
+            "off campus",
+            "local find"
+        ],
+        cost: "Varies by event; fees may apply",
+        eligibility: "Age limits and registration vary by event.",
+        hours: "Check individual event listings",
+        lastVerified: "",
+        source: "POSH — Austin event listings"
+    },
+    {
+        id: "austin-vintage-guide",
+        title: "Explore Austin's Vintage Shops",
+        category: "explore",
+        resourceType: "Community Resource",
+        section: "Local Discoveries & Creative Inspiration",
+        description: "Plan your own vintage-shop outing and find creative inspiration around Austin. Explore local businesses at your own pace, meet shopkeepers along the way, and browse without making shopping the goal.",
+        url: "https://www.vintagearoundtownguide.com/map",
+        linkText: "Explore the Vintage Map",
+        tags: [
+            "art",
+            "community",
+            "off campus",
+            "local find"
+        ],
+        cost: "Map is free; purchases optional",
+        eligibility: "Check individual shop hours and access.",
+        hours: "Varies by shop",
+        lastVerified: "",
+        source: "Austin Vintage Around Town Guide"
+    },
     {
         id: "cmhc",
         title: "UT Counseling and Mental Health Center",
