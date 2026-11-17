@@ -1221,3 +1221,52 @@
     startUpgrade();
   }
 })();
+/* Polished activity picker */
+(() => {
+  function polishPicker() {
+    const picker = document.getElementById("eq-picker");
+    const select = document.getElementById("eq-interest");
+
+    if (!picker || !select || picker.dataset.polished) return;
+    picker.dataset.polished = "true";
+
+    const panel = picker.querySelector(".eq-panel");
+    const heading = document.getElementById("eq-picker-heading");
+    const introduction = heading.nextElementSibling;
+
+    const eyebrow = document.createElement("span");
+    eyebrow.className = "eq-picker-eyebrow";
+    eyebrow.textContent = "A LITTLE INSPIRATION";
+    heading.before(eyebrow);
+
+    heading.textContent = "Find your next little reset.";
+
+    if (introduction?.tagName === "P") {
+      introduction.textContent =
+        "Choose a mood. We’ll suggest somewhere to start.";
+    }
+
+    /* Native radio buttons provide keyboard support without a dropdown. */
+    const field = select.closest(".eq-field");
+    const choices = document.createElement("fieldset");
+    choices.className = "eq-mood-choices";
+
+    const legend = document.createElement("legend");
+    legend.textContent = "What sounds good?";
+    choices.append(legend);
+
+    const names = {
+      any: "Surprise me",
+      unwind: "Unwind",
+      outside: "Get outside",
+      move: "Get moving",
+      connect: "Connect",
+      inspire: "Get inspired"
+    };
+
+    [...select.options].forEach(option => {
+      const label = document.createElement("label");
+      label.className = "eq-mood-option";
+
+      const radio = document.createElement("input");
+      radio.type = "radio
