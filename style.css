@@ -1399,27 +1399,3 @@ body {
         gap: 0.4rem;
     }
 }
-
-/* Simplified finder: progressive steps, native disclosure and keyboard focus. */
-[hidden] { display: none !important; }
-.finder-details { margin: .8rem 0; }
-.finder-details summary { cursor: pointer; padding: .65rem 0; font-weight: 600; min-height: 44px; }
-.finder-details p { margin: .7rem 0; }
-.resource-essentials { font-size: .9rem; line-height: 1.65; margin: .8rem 0; }
-.finder-back { margin-bottom: 1rem; min-height: 44px; }
-#browseAllBtn { display: block; margin: 1.5rem auto 0; min-height: 44px; }
-.res-link { min-height: 44px; display: inline-flex; align-items: center; }
-button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
-#resultsHeading, #study-section h2 { scroll-margin-top: 110px; }
-.res-card { min-width: 0; overflow-wrap: anywhere; }
-@media (max-width: 600px) {
-    .selector-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .selector-card { min-width: 0; padding: 1rem .65rem; }
-    .selector-title { font-size: .95rem; }
-    .resource-grid { grid-template-columns: minmax(0, 1fr); }
-    .filter-chip { min-height: 44px; white-space: normal; }
-}
-@media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-}
